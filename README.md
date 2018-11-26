@@ -1,4 +1,4 @@
-# Passpword Generator
+# Password Generator
 
 ![](assets/password-generator.png)
 
