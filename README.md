@@ -12,3 +12,4 @@ Hosted online at https://snapmagic.com/passgen/
 
 * Choose the number of characters in the password
 * Enter the characters that can be used in the password
+* Click the clipboard button to copy the password to your clipboard

@@ -46,10 +46,15 @@
         </div>
       </div>
 
-      <div class="box has-text-centered" style="overflow-x: auto" v-show="password">
-        <span class="is-size-3 is-size-6-mobile" style="font-family: monospace" v-cloak>
-            {{ password }}
-        </span>
+      <div class="field has-addons">
+        <div class="control is-expanded">
+          <input v-model="password" id="generated-password" class="input is-large has-text-centered" type="text" style="font-family: monospace" readonly>
+        </div>
+        <div class="control">
+          <a class="button is-large" id="clipboard-button" data-clipboard-target="#generated-password" title="Copy to clipboard">
+            <img src="assets/clippy.svg" height="36" width="36">
+          </a>
+        </div>
       </div>
 
     </div>
@@ -66,7 +71,8 @@
     </div>
   </footer>
 
-  <script src="assets/vue-2.5.17.min.js"></script>
+  <script src="assets/vue-2.5.22.min.js"></script>
+  <script src="assets/clipboard-2.0.4.min.js"></script>
   <script src="app.js"></script>
 
 </body>
