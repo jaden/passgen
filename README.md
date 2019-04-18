@@ -1,6 +1,6 @@
 # Password Generator
 
-![](assets/password-generator.png)
+![](password-generator.png)
 
 A simple, static password generator that uses `window.crypto.getRandomValues()` for cryptographically secure pseudo random numbers.
 
