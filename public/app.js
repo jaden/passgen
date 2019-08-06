@@ -2,8 +2,8 @@ const crypto = window.crypto || window.msCrypto;
 
 new ClipboardJS('#clipboard-button');
 
-function getRandomNumber(length) {
-  return Math.floor(crypto.getRandomValues(new Uint32Array(1))[0] / (0xffffffff + 1) * length);
+function getRandomNumber(ceiling) {
+  return Math.floor(crypto.getRandomValues(new Uint32Array(1))[0] / (0xffffffff + 1) * ceiling);
 }
 
 new Vue({
