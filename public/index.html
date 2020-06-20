@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Password Generator</title>
-  <link rel="stylesheet" href="assets/css/bulma-0.7.5.min.css">
+  <link rel="stylesheet" href="assets/css/bulma-0.9.0.min.css">
   <style>
     [v-cloak] {
       display: none;
@@ -15,6 +15,18 @@
         max-width: 600px;
         width: 600px;
       }
+    }
+
+    .notification {
+      opacity: 0;
+      animation: fadeInOut 5s linear forwards;
+    }
+
+    @keyframes fadeInOut {
+      0% { opacity: 0; }
+      15% { opacity: 1; }
+      85% { opacity: 1; }
+      100% { opacity: 0; }
     }
   </style>
 </head>
@@ -29,32 +41,57 @@
       <div class="field">
         <label class="label is-uppercase">Password Length</label>
         <div class="control">
-          <input class="input" type="text" v-model="length" placeholder="The length of the password">
+          <input class="input" type="text" v-model="passwordLength" placeholder="The desired password length">
         </div>
       </div>
 
       <div class="field">
-        <label class="label is-uppercase">Possible Characters</label>
-        <div class="control">
-          <input class="input" type="text" v-model="characters" placeholder="The set of characters that make up the password">
+        <label class="label is-uppercase">Character Sets</label>
+      </div>
+
+      <div class="field is-horizontal">
+        <label class="checkbox mr-5" v-for="charSet in charSets" :key="charSet.name" :title="charSet.value">
+          <input type="checkbox" v-model="selectedCharSets" :value="charSet">
+          {{ charSet.name }}
+        </label>
+      </div>
+
+      <div class="field">
+        <label class="label is-uppercase">Extra Characters</label>
+      </div>
+
+      <div class="field">
+        <div class="control is-expanded">
+          <input class="input is-family-monospace" type="text" placeholder="Any additional characters to use" v-model="extraCharacters">
+        </div>
+      </div>
+
+      <div class="field is-clearfix">
+        <div class="control is-pulled-right">
+          <button class="button is-info is-light is-small" @click="initializeCharacterSelection()">Reset</button>
+          <button class="button is-warning is-light is-small" @click="clearCharacterSelection()">Clear</button>
         </div>
       </div>
 
       <div class="field">
         <div class="control">
-          <button @click="generatePassword" class="button is-primary is-medium is-fullwidth">Generate</button>
+          <button @click="regeneratePassword" class="button is-link is-medium is-fullwidth" v-bind:disabled="characters.length === 0">Generate</button>
         </div>
       </div>
 
       <div class="field has-addons">
         <div class="control is-expanded">
-          <input v-model="password" id="generated-password" class="input is-large has-text-centered" type="text" style="font-family: monospace" readonly>
+          <input v-model="password" id="generated-password" class="input is-large has-text-centered is-family-monospace" type="text" readonly>
         </div>
         <div class="control">
           <a class="button is-large is-light" id="clipboard-button" data-clipboard-target="#generated-password" title="Copy to clipboard">
             <img src="assets/img/clippy.svg" height="36" width="36">
           </a>
         </div>
+      </div>
+
+      <div class="notification fade is-success is-light has-text-centered" v-bind:class="{ 'is-hidden': !isToastVisible }">
+        The password has been copied to your clipboard.
       </div>
 
     </div>
@@ -71,8 +108,9 @@
     </div>
   </footer>
 
-  <script src="assets/js/vue-2.5.22.min.js"></script>
-  <script src="assets/js/clipboard-2.0.4.min.js"></script>
+  <script src="assets/js/array-flat-polyfill-1.0.1.min.js"></script>
+  <script src="assets/js/vue-2.6.11.min.js"></script>
+  <script src="assets/js/clipboard-2.0.6.min.js"></script>
   <script src="app.js"></script>
 
 </body>

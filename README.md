@@ -8,8 +8,15 @@ It can be run locally by opening `index.html` in your web browser. All assets ar
 
 Hosted online at https://passgen.danhersam.com
 
-# Usage
+## Usage
 
 * Choose the number of characters in the password
-* Enter the characters that can be used in the password
+* Select the character sets to use or enter individual characters to be used in the password
 * Click the clipboard button to copy the password to your clipboard
+
+## External projects used
+
+* [Vue.js](https://github.com/vuejs/vue/releases)
+* [Clipboard.js](https://github.com/zenorocha/clipboard.js/releases)
+* [array-flat-polyfill](https://github.com/jonathantneal/array-flat-polyfill) for IE support
+* [Bulma](https://github.com/jgthms/bulma/releases)
