@@ -8,8 +8,8 @@ const characterSets = [
   { name: 'a-z', value: 'abcdefghijklmnopqrstuvwxyz' },
   { name: 'A-Z', value: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' },
   { name: '0-9', value: '0123456789' },
-  { name: 'Symbols', value: '!@#$%^&*' },
-  { name: 'Special', value: '~-+=:;|/,.?()[]{}<>' },
+  { name: 'Symbols', value: '~!@#$%^&*-_=+' },
+  { name: 'Special', value: ':;|/,.?()[]{}<>' },
 ];
 
 new Vue({
@@ -46,8 +46,8 @@ new Vue({
     },
 
     initializeCharacterSelection: function () {
-      this.selectedCharSets = characterSets.slice(0, 3);
-      this.extraCharacters = '_';
+      this.selectedCharSets = characterSets.slice(0, 4);
+      this.extraCharacters = '';
     },
 
     clearCharacterSelection: function () {
