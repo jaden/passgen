@@ -48,7 +48,7 @@
   <script defer src="assets/js/array-flat-polyfill-1.0.1.min.js"></script>
   <script defer src="assets/js/vue-2.6.11.min.js"></script>
   <script defer src="assets/js/clipboard-2.0.6.min.js"></script>
-  <script defer src="app.js?v=1.1"></script>
+  <script defer src="app.js?v=1.2"></script>
 
   <section id="app" class="section" v-cloak>
 
@@ -93,7 +93,7 @@
 
       <div class="field">
         <div class="control">
-          <button @click="regeneratePassword" class="button is-link is-medium is-fullwidth" v-bind:disabled="characters.length === 0">Generate</button>
+          <button @click="generatePassword" class="button is-link is-medium is-fullwidth" v-bind:disabled="characters.length === 0">Generate</button>
         </div>
       </div>
 
@@ -107,6 +107,10 @@
           </a>
         </div>
       </div>
+
+      <p v-show="entropy && password" class="has-text-grey is-size-7">
+        {{ entropy }} bits of entropy
+      </p>
 
       <div class="notification fade is-success is-light has-text-centered" v-bind:class="{ 'is-hidden': !isToastVisible }">
         The password has been copied to your clipboard.

@@ -4,6 +4,14 @@ function getRandomNumber(ceiling) {
   return Math.floor(crypto.getRandomValues(new Uint32Array(1))[0] / (0xffffffff + 1) * ceiling);
 }
 
+function getEntropy(length, numPossibleSymbols) {
+  if (!length || !numPossibleSymbols) {
+    return null;
+  }
+
+  return Math.round(Math.log2(Math.pow(numPossibleSymbols, length)) * 100) / 100;
+}
+
 const characterSets = [
   { name: 'a-z', value: 'abcdefghijklmnopqrstuvwxyz' },
   { name: 'A-Z', value: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' },
@@ -38,11 +46,7 @@ new Vue({
         password += this.characters.charAt(getRandomNumber(this.characters.length));
       }
 
-      return password;
-    },
-
-    regeneratePassword: function () {
-      this.password = this.generatePassword();
+      this.password = password;
     },
 
     initializeCharacterSelection: function () {
@@ -68,20 +72,24 @@ new Vue({
 
   watch: {
     characters: function () {
-      this.password = this.generatePassword();
+      this.generatePassword();
     },
 
     passwordLength: function () {
-      this.password = this.generatePassword();
+      this.generatePassword();
     },
   },
 
   computed: {
     characters: function () {
       return this.selectedCharSets
-        .map(function (item) { return item.value })
+        .map(item => item.value)
         .flat()
         .join('') + this.extraCharacters;
+    },
+    entropy: function () {
+      const uniqueCharacters = new Set(this.characters);
+      return getEntropy(this.passwordLength, uniqueCharacters.size);
     },
   },
 });
