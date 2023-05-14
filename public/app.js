@@ -20,16 +20,17 @@ const characterSets = [
   { name: 'Special', value: ':;|/,.?()[]{}<>' },
 ];
 
-new Vue({
-  el: '#app',
-  data: {
-    charSets: characterSets,
-    selectedCharSets: [],
-    extraCharacters: '',
-    passwordLength: 25,
-    password: '',
-    clipboardButton: null,
-    isToastVisible: false,
+const app = Vue.createApp({
+  data() {
+    return {
+      charSets: characterSets,
+      selectedCharSets: [],
+      extraCharacters: '',
+      passwordLength: 25,
+      password: '',
+      clipboardButton: null,
+      isToastVisible: false,
+    };
   },
 
   mounted: function () {
@@ -93,3 +94,5 @@ new Vue({
     },
   },
 });
+
+app.mount('#app');
