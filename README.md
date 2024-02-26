@@ -14,9 +14,9 @@ Hosted online at https://passgen.danhersam.com
 * Select the character sets to use or enter individual characters to be used in the password
 * Click the clipboard button to copy the password to your clipboard
 
-## External projects used
+## Built with
 
-* [Vue.js](https://github.com/vuejs/vue/releases)
+* [Vue.js](https://github.com/vuejs/core/releases) - [vue.global.prod.js](https://unpkg.com/browse/vue@latest/dist/)
 * [Clipboard.js](https://github.com/zenorocha/clipboard.js/releases)
 * [array-flat-polyfill](https://github.com/jonathantneal/array-flat-polyfill) for IE support
 * [Bulma](https://github.com/jgthms/bulma/releases)
