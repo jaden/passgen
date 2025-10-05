@@ -67,7 +67,7 @@
       </div>
 
       <div class="field is-horizontal">
-        <label class="checkbox mr-5" v-for="charSet in charSets" :key="charSet.name" :title="charSet.value">
+        <label class="checkbox mr-5 mb-2" v-for="charSet in charSets" :key="charSet.name" :title="charSet.value">
           <input type="checkbox" v-model="selectedCharSets" :value="charSet">
           {{ charSet.name }}
         </label>
@@ -80,13 +80,6 @@
       <div class="field">
         <div class="control is-expanded">
           <input class="input is-family-monospace" type="text" placeholder="Any additional characters to use" v-model="extraCharacters">
-        </div>
-      </div>
-
-      <div class="field is-clearfix">
-        <div class="control is-pulled-right">
-          <button class="button is-info is-light is-small" @click="initializeCharacterSelection()">Reset</button>
-          <button class="button is-warning is-light is-small" @click="clearCharacterSelection()">Clear</button>
         </div>
       </div>
 
@@ -110,14 +103,22 @@
         </div>
       </div>
 
-      <div class="notification fade is-success is-light has-text-centered" v-bind:class="{ 'is-hidden': !isToastVisible }">
-        The password has been copied to your clipboard.
+      <div class="level">
+        <div class="level-left">
+          <p v-show="entropy && password" class="has-text-grey is-size-7">{{ entropy }} bits of entropy</p>
+        </div>
+        <div class="level-right">
+          <div class="buttons are-small">
+            <button class="button is-outlined" @click="initializeCharacterSelection()">Reset</button>
+            <button class="button is-outlined" @click="clearCharacterSelection()">Clear</button>
+          </div>
+        </div>
       </div>
+    </div>
 
-      <p v-show="entropy && password" class="has-text-grey is-size-7">
-        {{ entropy }} bits of entropy
-      </p>
-
+    <div class="notification fade is-success is-light has-text-centered" v-bind:class="{ 'is-hidden': !isToastVisible }"
+      style="position: fixed; top: 1rem; right: 1rem; max-width: 90vw">
+      The password has been copied to your clipboard.
     </div>
 
   </section>
