@@ -48,7 +48,7 @@
   <script defer src="assets/js/array-flat-polyfill-1.0.1.min.js"></script>
   <script defer src="assets/js/vue-3.4.20.global.prod.js"></script>
   <script defer src="assets/js/clipboard-2.0.6.min.js"></script>
-  <script defer src="app.js?v=1.3"></script>
+  <script defer src="app.js?v=1.4"></script>
 
   <section id="app" class="section" v-cloak>
 
@@ -59,7 +59,7 @@
       <div class="field">
         <label class="label is-uppercase">Password Length</label>
         <div class="control">
-          <input class="input" type="text" v-model="passwordLength" placeholder="The desired password length">
+          <input class="input" type="number" v-model="passwordLength">
         </div>
       </div>
 
@@ -99,9 +99,12 @@
 
       <div class="field has-addons">
         <div class="control is-expanded">
-          <input v-model="password" id="generated-password" class="input is-large has-text-centered is-family-monospace" type="text" readonly>
+          <div id="generated-password" class="has-text-centered is-family-monospace is-size-4 p-3"
+            style="overflow-wrap: break-word; word-break: break-all; white-space: pre-wrap; border: 1px solid #dbdbdb; border-radius: 4px;">
+            {{ password }}
+          </div>
         </div>
-        <div class="control">
+        <div class="control" style="flex-shrink: 0">
           <a class="button is-large is-light" id="clipboard-button" data-clipboard-target="#generated-password" title="Copy to clipboard">
             <img src="assets/img/clippy.svg" height="36" width="36">
           </a>

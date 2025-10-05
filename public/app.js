@@ -1,7 +1,13 @@
-const crypto = window.crypto || window.msCrypto;
-
 function getRandomNumber(ceiling) {
-  return Math.floor(crypto.getRandomValues(new Uint32Array(1))[0] / (0xffffffff + 1) * ceiling);
+  const maxUint = 0xFFFFFFFF; // 2^32 - 1
+  const maxSafeValue = maxUint - (maxUint % ceiling);
+  const buffer = new Uint32Array(1);
+
+  do {
+    crypto.getRandomValues(buffer);
+  } while (buffer[0] > maxSafeValue); // Loop until it's in the safe, non-biased range
+
+  return buffer[0] % ceiling;
 }
 
 function getEntropy(length, numPossibleSymbols) {
@@ -9,16 +15,20 @@ function getEntropy(length, numPossibleSymbols) {
     return null;
   }
 
-  return Math.round(Math.log2(Math.pow(numPossibleSymbols, length)) * 100) / 100;
+  return Math.round(length * Math.log2(numPossibleSymbols) * 100) / 100;
 }
 
 const characterSets = [
   { name: 'a-z', value: 'abcdefghijklmnopqrstuvwxyz' },
   { name: 'A-Z', value: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' },
   { name: '0-9', value: '0123456789' },
-  { name: 'Symbols', value: '~!@#$%^&*-_=+' },
-  { name: 'Special', value: ':;|/,.?()[]{}<>' },
+  { name: 'Symbols', value: '!@#$%-_+?' },
+  { name: 'Special', value: '~^&*:;|/,.=' },
+  { name: 'Brackets', value: '()[]{}<>' },
 ];
+
+const defaultPasswordLength = 25;
+const maxPasswordLength = 128;
 
 const app = Vue.createApp({
   data() {
@@ -26,7 +36,7 @@ const app = Vue.createApp({
       charSets: characterSets,
       selectedCharSets: [],
       extraCharacters: '',
-      passwordLength: 25,
+      passwordLength: defaultPasswordLength,
       password: '',
       clipboardButton: null,
       isToastVisible: false,
@@ -42,6 +52,10 @@ const app = Vue.createApp({
   methods: {
     generatePassword: function () {
       let password = '';
+
+      if (this.passwordLength <= 0 || this.passwordLength > maxPasswordLength) {
+        this.passwordLength = defaultPasswordLength;
+      }
 
       for (let i = 0; i < this.passwordLength; i++) {
         password += this.characters.charAt(getRandomNumber(this.characters.length));
