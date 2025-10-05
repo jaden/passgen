@@ -60,7 +60,7 @@ const app = Vue.createApp({
   mounted: function () {
     this.clipboardButton = new ClipboardJS('#clipboard-button');
     this.clipboardButton.on('success', this.showToast);
-    this.initializeCharacterSelection();
+    this.initializeForm();
   },
 
   methods: {
@@ -81,13 +81,9 @@ const app = Vue.createApp({
       this.password = password;
     },
 
-    initializeCharacterSelection: function () {
+    initializeForm: function () {
+      this.passwordLength = defaultPasswordLength;
       this.selectedCharSets = characterSets.slice(0, 4);
-      this.extraCharacters = '';
-    },
-
-    clearCharacterSelection: function () {
-      this.selectedCharSets = [];
       this.extraCharacters = '';
     },
 
