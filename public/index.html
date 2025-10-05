@@ -74,12 +74,22 @@
       </div>
 
       <div class="field">
-        <label class="label is-uppercase">Extra Characters</label>
+        <label class="label is-uppercase">Custom Additions</label>
       </div>
 
       <div class="field">
         <div class="control is-expanded">
-          <input class="input is-family-monospace" type="text" placeholder="Any additional characters to use" v-model="extraCharacters">
+          <input class="input is-family-monospace" type="text" placeholder="Extra characters to be used" v-model="extraCharacters">
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label is-uppercase">Current Selection</label>
+      </div>
+
+      <div class="field">
+        <div class="control is-expanded">
+          <pre>{{ characters }}</pre>
         </div>
       </div>
 
