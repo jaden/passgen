@@ -18,5 +18,4 @@ Hosted online at https://passgen.danhersam.com
 
 * [Vue.js](https://github.com/vuejs/core/releases) - [vue.global.prod.js](https://unpkg.com/browse/vue@latest/dist/)
 * [Clipboard.js](https://github.com/zenorocha/clipboard.js/releases)
-* [array-flat-polyfill](https://github.com/jonathantneal/array-flat-polyfill) for IE support
 * [Bulma](https://github.com/jgthms/bulma/releases)
