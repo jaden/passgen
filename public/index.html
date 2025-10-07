@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Password Generator</title>
-  <link rel="stylesheet" href="assets/css/bulma-0.9.4.min.css">
+  <link rel="stylesheet" href="assets/css/bootstrap-5.3.8.min.css">
   <style>
     [v-cloak] {
       display: none;
@@ -21,13 +21,12 @@
 
     @media screen and (min-width: 1068px) {
       .container {
-        max-width: 600px;
-        width: 600px;
+        max-width: 700px;
+        width: 700px;
       }
     }
 
-    .notification {
-      opacity: 0;
+    .alert {
       animation: fadeInOut 5s linear forwards;
     }
 
@@ -45,100 +44,82 @@
 </head>
 <body>
 
-  <script defer src="assets/js/vue-3.4.20.global.prod.js"></script>
+  <script defer src="assets/js/bootstrap-5.3.8.min.js"></script>
+  <script defer src="assets/js/vue-3.5.22.global.prod.js"></script>
   <script defer src="assets/js/clipboard-2.0.6.min.js"></script>
   <script defer src="app.js?v=1.4"></script>
 
-  <section id="app" class="section" v-cloak>
-
+  <section id="app" class="py-5" v-cloak>
     <div class="container">
 
-      <h1 class="title">Password Generator</h1>
+      <h1 class="display-6 mb-4">Password Generator</h1>
 
-      <div class="field">
-        <label class="label is-uppercase">Password Length</label>
-        <div class="control">
-          <input class="input" type="number" v-model="passwordLength">
-        </div>
-      </div>
-
-      <div class="field">
-        <label class="label is-uppercase">Character Sets</label>
-      </div>
-
-      <div class="field is-horizontal">
-        <label class="checkbox mr-5 mb-2" v-for="charSet in charSets" :key="charSet.name" :title="charSet.value">
-          <input type="checkbox" v-model="selectedCharSets" :value="charSet">
-          {{ charSet.name }}
-        </label>
-      </div>
-
-      <div class="field">
-        <label class="label is-uppercase">Custom Additions</label>
-      </div>
-
-      <div class="field">
-        <div class="control is-expanded">
-          <input class="input is-family-monospace" type="text" placeholder="Extra characters to be used" v-model="extraCharacters">
-        </div>
-      </div>
-
-      <div class="field">
-        <label class="label is-uppercase">Current Selection</label>
-      </div>
-
-      <div class="field">
-        <div class="control is-expanded">
-          <pre>{{ characters }}</pre>
-        </div>
-      </div>
-
-      <div class="field">
-        <div class="control">
-          <button @click="generatePassword" class="button is-link is-medium is-fullwidth" v-bind:disabled="characters.length === 0">Generate</button>
-        </div>
-      </div>
-
-      <div class="field has-addons">
-        <div class="control is-expanded">
-          <div id="generated-password" class="has-text-centered is-family-monospace is-size-4 p-3"
-            style="overflow-wrap: break-word; word-break: break-all; white-space: pre-wrap; border: 1px solid #dbdbdb; border-radius: 4px;">
+      <div class="row mb-md-5">
+        <div class="col-md-10">
+          <div id="generated-password" class="bg-light text-center font-monospace fs-2 text-primary-emphasis flex-grow-1 border rounded px-3 py-2"
+            style="overflow-wrap: break-word; word-break: break-all; min-height: 4rem;">
             {{ password }}
           </div>
         </div>
-        <div class="control" style="flex-shrink: 0">
-          <a class="button is-large is-light" id="clipboard-button" data-clipboard-target="#generated-password" title="Copy to clipboard">
-            <img src="assets/img/clippy.svg" height="36" width="36">
+
+        <div class="col-auto ms-auto ms-md-0 mt-3 mt-md-0 d-flex align-items-center">
+          <a class="btn btn-light btn-lg flex-shrink-0 d-flex align-items-center" id="clipboard-button" data-clipboard-target="#generated-password" title="Copy to clipboard">
+            <img src="assets/img/clippy.svg" height="40" width="40" alt="Copy password">
           </a>
         </div>
       </div>
 
-      <div class="level">
-        <div class="level-left">
-          <p v-show="entropy && password" class="has-text-grey is-size-7">{{ entropy }} bits of entropy</p>
+      <div class="row align-items-center mb-4">
+        <div class="col-md-5 col-sm-6">
+          <label class="form-label text-secondary fw-semibold">Password Length</label>
+          <input class="form-control form-control-lg" type="number" v-model="passwordLength" min="1" :max="maxPasswordLength" style="max-width: 150px">
         </div>
-        <div class="level-right">
-          <button class="button is-outlined is-small" @click="initializeForm()">Reset</button>
+        <div class="col-md-5 col-sm-6 ms-md-auto">
+          <label class="form-label text-secondary fw-semibold">More Characters</label>
+          <input class="form-control form-control-lg" type="text" placeholder="Add other characters" v-model="extraCharacters">
         </div>
       </div>
+
+      <div class="row align-items-center mb-4">
+        <div class="col">
+          <div class="d-flex flex-wrap">
+            <div class="me-2 mb-3 mb-md-0" v-for="(charSet, index) in characterSets" :title="charSet.value">
+              <input class="btn-check" type="checkbox" v-model="selectedCharSets" :value="charSet.name" :id="'charset-toggle-' + index" autocomplete="off">
+              <label class="btn btn-outline-secondary" :for="'charset-toggle-' + index">{{ charSet.name }}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <button @click="generatePassword" class="btn btn-success btn-lg w-100" :disabled="characters.length === 0">Generate</button>
+      </div>
+
+      <div class="mb-4">
+        <label class="form-label text-secondary fw-semibold">Selected Characters</label>
+        <pre class="bg-light p-3 border rounded">{{ characters.join('') }}</pre>
+      </div>
+
+      <div class="d-flex justify-content-between align-items-center">
+        <p class="text-muted small mb-0">{{ entropy }} bits of entropy</p>
+        <button class="btn btn-sm btn-outline-secondary" @click="initializeForm()">Reset</button>
+      </div>
+
     </div>
 
-    <div class="notification fade is-success is-light has-text-centered" v-bind:class="{ 'is-hidden': !isToastVisible }"
-      style="position: fixed; top: 1rem; right: 1rem; max-width: 90vw">
+    <div class="alert alert-success position-fixed top-0 end-0 m-3" v-show="isToastVisible" role="alert" style="z-index: 100">
       The password has been copied to your clipboard.
     </div>
 
   </section>
 
-  <footer class="footer">
+  <footer class="footer bg-light py-4 mt-5">
     <div class="container">
-      <div class="content has-text-centered">
-        <p>
+      <div class="text-center">
+        <p class="mb-0">
           Built by <a href="https://dan.hersam.com">Dan Hersam</a> | <a href="https://github.com/jaden/passgen">Source on GitHub</a>
         </p>
       </div>
     </div>
   </footer>
-
-</body>
 </html>

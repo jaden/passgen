@@ -26,7 +26,7 @@ function getRandomNumbers(ceiling, count) {
 
 function getEntropy(length, numPossibleSymbols) {
   if (!length || !numPossibleSymbols) {
-    return null;
+    return 0;
   }
 
   return Math.round(length * Math.log2(numPossibleSymbols) * 100) / 100;
@@ -42,15 +42,15 @@ const characterSets = [
 ];
 
 const defaultPasswordLength = 25;
-const maxPasswordLength = 1024;
 
 const app = Vue.createApp({
   data() {
     return {
-      charSets: characterSets,
+      characterSets,
       selectedCharSets: [],
       extraCharacters: '',
       passwordLength: defaultPasswordLength,
+      maxPasswordLength: 128,
       password: '',
       clipboardButton: null,
       isToastVisible: false,
@@ -65,17 +65,19 @@ const app = Vue.createApp({
 
   methods: {
     generatePassword: function () {
-      if (this.passwordLength <= 0 || this.passwordLength > maxPasswordLength) {
+      if (this.characters === null || this.characters.length === 0) {
+        return this.password = '';
+      }
+
+      if (this.passwordLength <= 0 || this.passwordLength > this.maxPasswordLength) {
         this.passwordLength = defaultPasswordLength;
       }
 
-      const charArray = Array.from(this.characters);
-
-      const randomIndexes = getRandomNumbers(charArray.length, this.passwordLength);
+      const randomIndexes = getRandomNumbers(this.characters.length, this.passwordLength);
       let password = '';
 
       for (let i = 0; i < this.passwordLength; i++) {
-        password += charArray[randomIndexes[i]];
+        password += this.characters[randomIndexes[i]];
       }
 
       this.password = password;
@@ -83,7 +85,7 @@ const app = Vue.createApp({
 
     initializeForm: function () {
       this.passwordLength = defaultPasswordLength;
-      this.selectedCharSets = characterSets.slice(0, 4);
+      this.selectedCharSets = ['a-z', 'A-Z', '0-9', 'Symbols'];
       this.extraCharacters = '';
     },
 
@@ -110,14 +112,15 @@ const app = Vue.createApp({
 
   computed: {
     characters: function () {
-      const characters = this.selectedCharSets.map(item => item.value).join('') + this.extraCharacters;
-      const charactersSet = new Set(Array.from(characters));
+      const allCharacters = this.selectedCharSets
+        .map(name => this.characterSets.find(set => set.name === name)?.value ?? '')
+        .join('') + this.extraCharacters;
 
-      return [...charactersSet].join('');
+      return [...new Set(Array.from(allCharacters))];
     },
+
     entropy: function () {
-      const uniqueCharacters = new Set(this.characters);
-      return getEntropy(this.passwordLength, uniqueCharacters.size);
+      return getEntropy(this.passwordLength, this.characters.length);
     },
   },
 });
