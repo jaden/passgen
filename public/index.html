@@ -56,8 +56,8 @@
 
       <div class="row mb-md-5">
         <div class="col-md-10">
-          <div id="generated-password" class="bg-light text-center font-monospace fs-2 text-primary-emphasis flex-grow-1 border rounded px-3 py-2"
-            style="overflow-wrap: break-word; word-break: break-all; min-height: 4rem;">
+          <div id="generated-password" class="bg-light text-center font-monospace fs-2 text-primary-emphasis flex-grow-1 border rounded px-3 py-2 overflow-x-auto text-nowrap"
+            style="min-height: 4rem;">
             {{ password }}
           </div>
         </div>
@@ -69,10 +69,11 @@
         </div>
       </div>
 
-      <div class="row align-items-center mb-4">
+      <div class="row mb-4">
         <div class="col-md-5 col-sm-6">
           <label class="form-label text-secondary fw-semibold">Password Length</label>
-          <input class="form-control form-control-lg" type="number" v-model="passwordLength" min="1" :max="maxPasswordLength" style="max-width: 150px">
+          <input class="form-control form-control-lg" type="number" v-model="passwordLength" min="1" :max="maxPasswordLength">
+          <input type="range" class="form-range form-control-lg" v-model="passwordLength" min="1" :max="maxPasswordLength" step="1">
         </div>
         <div class="col-md-5 col-sm-6 ms-md-auto">
           <label class="form-label text-secondary fw-semibold">More Characters</label>
@@ -116,9 +117,7 @@
   <footer class="footer bg-light py-4 mt-5">
     <div class="container">
       <div class="text-center">
-        <p class="mb-0">
-          Built by <a href="https://dan.hersam.com">Dan Hersam</a> | <a href="https://github.com/jaden/passgen">Source on GitHub</a>
-        </p>
+        Built by <a href="https://dan.hersam.com">Dan Hersam</a> | <a href="https://github.com/jaden/passgen">Source on GitHub</a>
       </div>
     </div>
   </footer>

@@ -2,7 +2,7 @@
 
 ![](password-generator.png)
 
-A simple, static password generator that uses `window.crypto.getRandomValues()` for cryptographically secure pseudo random numbers.
+A simple, static password generator that uses `crypto.getRandomValues()` for cryptographically secure pseudo random numbers.
 
 It can be run locally by opening `index.html` in your web browser. All assets are included in the repository so no network connection is required.
 
@@ -10,8 +10,8 @@ Hosted online at https://passgen.danhersam.com
 
 ## Usage
 
-* Choose the number of characters in the password
-* Select the character sets to use or enter individual characters to be used in the password
+* Adjust the password length
+* Select the character sets to use or enter additional characters to be used to generate the password
 * Click the clipboard button to copy the password to your clipboard
 
 ## Built with
