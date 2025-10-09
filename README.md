@@ -4,7 +4,7 @@
 
 A simple, static password generator that uses `crypto.getRandomValues()` for cryptographically secure pseudo random numbers.
 
-It can be run locally by opening `index.html` in your web browser. All assets are included in the repository so no network connection is required.
+It can be run locally by opening `public/index.html` in your web browser. All assets are included in the repository so no network connection is required.
 
 Hosted online at https://passgen.danhersam.com
 
