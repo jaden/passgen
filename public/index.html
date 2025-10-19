@@ -71,13 +71,13 @@
 
       <div class="row mb-4">
         <div class="col-md-5 col-sm-6">
-          <label class="form-label text-secondary fw-semibold">Password Length</label>
-          <input class="form-control form-control-lg" type="number" v-model="passwordLength" min="1" :max="maxPasswordLength">
+          <label class="form-label text-secondary fw-semibold" for="password-length">Password Length</label>
+          <input class="form-control form-control-lg" type="number" id="password-length" v-model="passwordLength" min="1" :max="maxPasswordLength">
           <input type="range" class="form-range form-control-lg" v-model="passwordLength" min="1" :max="maxPasswordLength" step="1">
         </div>
         <div class="col-md-5 col-sm-6 ms-md-auto">
-          <label class="form-label text-secondary fw-semibold">More Characters</label>
-          <input class="form-control form-control-lg" type="text" placeholder="Add other characters" v-model="extraCharacters">
+          <label class="form-label text-secondary fw-semibold" for="extra-characters">More Characters</label>
+          <input class="form-control form-control-lg" type="text" id="extra-characters" placeholder="Add other characters" v-model="extraCharacters">
         </div>
       </div>
 
@@ -85,7 +85,7 @@
         <div class="col">
           <div class="d-flex flex-wrap">
             <div class="me-2 mb-3 mb-md-0" v-for="(charSet, index) in characterSets" :title="charSet.value">
-              <input class="btn-check" type="checkbox" v-model="selectedCharSets" :value="charSet.name" :id="'charset-toggle-' + index" autocomplete="off">
+              <input class="btn-check" type="checkbox" v-model="selectedCharSets" :value="charSet.name" :id="'charset-toggle-' + index">
               <label class="btn btn-outline-secondary" :for="'charset-toggle-' + index">{{ charSet.name }}</label>
             </div>
           </div>
@@ -97,7 +97,7 @@
       </div>
 
       <div class="mb-4">
-        <label class="form-label text-secondary fw-semibold">Selected Characters</label>
+        <div class="form-label text-secondary fw-semibold">Selected Characters</div>
         <pre class="bg-light p-3 border rounded">{{ characters.join('') }}</pre>
       </div>
 
