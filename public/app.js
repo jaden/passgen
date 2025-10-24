@@ -85,7 +85,7 @@ const app = Vue.createApp({
 
     initializeForm: function () {
       this.passwordLength = defaultPasswordLength;
-      this.selectedCharSets = ['a-z', 'A-Z', '0-9', 'Symbols'];
+      this.selectedCharSets = ['a-z', 'A-Z', '0-9'];
       this.extraCharacters = '';
     },
 
