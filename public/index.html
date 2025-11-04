@@ -47,7 +47,7 @@
   <script defer src="assets/js/bootstrap-5.3.8.min.js"></script>
   <script defer src="assets/js/vue-3.5.22.global.prod.js"></script>
   <script defer src="assets/js/clipboard-2.0.6.min.js"></script>
-  <script defer src="app.js?v=1.6"></script>
+  <script defer src="app.js?v=1.7"></script>
 
   <section id="app" class="py-5" v-cloak>
     <div class="container">
@@ -72,8 +72,11 @@
       <div class="row mb-4">
         <div class="col-md-5 col-sm-6">
           <label class="form-label text-secondary fw-semibold" for="password-length">Password Length</label>
-          <input class="form-control form-control-lg" type="number" id="password-length" v-model="passwordLength" min="1" :max="maxPasswordLength">
+          <input class="form-control form-control-lg" type="text" id="password-length" v-model="passwordLength" :class="{ 'is-invalid': !hasValidPasswordLength }">
           <input type="range" class="form-range form-control-lg" v-model="passwordLength" min="1" :max="maxPasswordLength" step="1">
+          <div v-if="!hasValidPasswordLength" class="invalid-feedback d-block mt-1">
+            Please use a positive integer from 1 to {{ maxPasswordLength }}.
+          </div>
         </div>
         <div class="col-md-5 col-sm-6 ms-md-auto">
           <label class="form-label text-secondary fw-semibold" for="extra-characters">More Characters</label>
@@ -88,12 +91,15 @@
               <input class="btn-check" type="checkbox" v-model="selectedCharSets" :value="charSet.name" :id="'charset-toggle-' + index">
               <label class="btn btn-outline-secondary" :for="'charset-toggle-' + index">{{ charSet.name }}</label>
             </div>
+            <div v-if="!hasValidCharacters" class="invalid-feedback d-block mt-1">
+              No characters have been selected.
+            </div>
           </div>
         </div>
       </div>
 
       <div class="mb-4">
-        <button @click="generatePassword" class="btn btn-success btn-lg w-100" :disabled="characters.length === 0">Generate</button>
+        <button @click="generatePassword" class="btn btn-success btn-lg w-100" :disabled="!isDataValid">Generate</button>
       </div>
 
       <div class="mb-4">
@@ -102,7 +108,7 @@
       </div>
 
       <div class="d-flex justify-content-between align-items-center">
-        <p class="text-muted small mb-0">{{ entropy }} bits of entropy</p>
+        <p class="text-muted small mb-0" v-show="isDataValid">{{ entropy }} bits of entropy</p>
         <button class="btn btn-sm btn-outline-secondary" @click="initializeForm()">Reset</button>
       </div>
 

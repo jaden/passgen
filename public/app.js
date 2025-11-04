@@ -65,12 +65,8 @@ const app = Vue.createApp({
 
   methods: {
     generatePassword: function () {
-      if (this.characters === null || this.characters.length === 0) {
+      if (!this.isDataValid) {
         return this.password = '';
-      }
-
-      if (this.passwordLength <= 0 || this.passwordLength > this.maxPasswordLength) {
-        this.passwordLength = defaultPasswordLength;
       }
 
       const randomIndexes = getRandomNumbers(this.characters.length, this.passwordLength);
@@ -122,6 +118,21 @@ const app = Vue.createApp({
     entropy: function () {
       return getEntropy(this.passwordLength, this.characters.length);
     },
+
+    hasValidCharacters: function () {
+      return this.characters !== null && this.characters.length !== 0;
+    },
+
+    hasValidPasswordLength: function () {
+      const numericLength = Number(this.passwordLength);
+      return Number(numericLength) > 0 &&
+        Number(numericLength) <= this.maxPasswordLength &&
+        Number.isInteger(numericLength);
+    },
+
+    isDataValid: function () {
+      return this.hasValidCharacters && this.hasValidPasswordLength;
+    }
   },
 });
 
