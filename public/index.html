@@ -75,7 +75,7 @@
           <input class="form-control form-control-lg" type="text" id="password-length" v-model="passwordLength" :class="{ 'is-invalid': !hasValidPasswordLength }">
           <input type="range" class="form-range form-control-lg" v-model="passwordLength" min="1" :max="maxPasswordLength" step="1">
           <div v-if="!hasValidPasswordLength" class="invalid-feedback d-block mt-1">
-            Please use a positive integer from 1 to {{ maxPasswordLength }}.
+            Please enter a positive integer from 1 to {{ maxPasswordLength }}.
           </div>
         </div>
         <div class="col-md-5 col-sm-6 ms-md-auto">
@@ -92,7 +92,7 @@
               <label class="btn btn-outline-secondary" :for="'charset-toggle-' + index">{{ charSet.name }}</label>
             </div>
             <div v-if="!hasValidCharacters" class="invalid-feedback d-block mt-1">
-              No characters have been selected.
+              Please select at least one character set.
             </div>
           </div>
         </div>
